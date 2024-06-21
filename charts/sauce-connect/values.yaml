@@ -26,6 +26,22 @@ serviceAccount:
 podAnnotations:
   appGroup: sauceConnect
 
+extraSecretMounts: {}
+# extraSecretMounts:
+#   name: example-cert
+#   mountPath: /etc/ssl/certs/example-cert.pem
+#   subPath: example-cert.pem # this prevents overwriting the full directory
+#   secretName: example-cert-secret
+#   readOnly: true
+
+extraConfigmapMounts: {}
+# extraConfigmapMounts:
+#   name: example-cert
+#   mountPath: /etc/ssl/certs/example-cert.pem
+#   subPath: example-cert.pem # this prevents overwriting the full directory
+#   configMap: example-cert-configmap
+#   readOnly: true
+
 podSecurityContext: {}
 securityContext: {}
 
