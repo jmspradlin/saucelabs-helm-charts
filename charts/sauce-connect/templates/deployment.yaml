@@ -53,6 +53,18 @@ spec:
           volumeMounts:
             - name: config-volume
               mountPath: /etc/config
+          {{- range .Values.query.extraSecretMounts }}
+            - name: {{ .name }}
+              mountPath: {{ .mountPath }}
+              subPath: {{ .subPath }}
+              readOnly: {{ .readOnly }}
+          {{- end }}
+          {{- range .Values.query.extraConfigmapMounts }}
+            - name: {{ .name }}
+              mountPath: {{ .mountPath }}
+              subPath: {{ .subPath }}
+              readOnly: {{ .readOnly }}
+          {{- end }}
           ports:
             - name: api
               containerPort: {{ .Values.api.port }}
@@ -76,6 +88,16 @@ spec:
         - name: config-volume
           configMap:
             name: {{ include "sauce-connect.fullname" . }}
+      {{- range .Values.query.extraConfigmapMounts }}
+        - name: {{ .name }}
+          configMap:
+            name: {{ .configMap }}
+      {{- end }}
+      {{- range .Values.query.extraSecretMounts }}
+        - name: {{ .name }}
+          secret:
+            secretName: {{ .secretName }}
+      {{- end }}
       terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
