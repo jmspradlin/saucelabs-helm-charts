@@ -54,16 +54,16 @@ spec:
             - name: config-volume
               mountPath: /etc/config
           {{- range .Values.query.extraSecretMounts }}
-            - name: {{ .name }}
-              mountPath: {{ .mountPath }}
-              subPath: {{ .subPath }}
-              readOnly: {{ .readOnly }}
+            - name: {{ $.Values.query.extraSecretMounts.name }}
+              mountPath: {{ $.Values.query.extraSecretMounts.mountPath }}
+              subPath: {{ $.Values.query.extraSecretMounts.subPath }}
+              readOnly: {{ $.Values.query.extraSecretMounts.readOnly }}
           {{- end }}
           {{- range .Values.query.extraConfigmapMounts }}
-            - name: {{ .name }}
-              mountPath: {{ .mountPath }}
-              subPath: {{ .subPath }}
-              readOnly: {{ .readOnly }}
+            - name: {{ $.Values.query.extraConfigmapMounts.name }}
+              mountPath: {{ $.Values.query.extraConfigmapMounts.mountPath }}
+              subPath: {{ $.Values.query.extraConfigmapMounts.subPath }}
+              readOnly: {{ $.Values.query.extraConfigmapMounts.readOnly }}
           {{- end }}
           ports:
             - name: api
@@ -89,14 +89,14 @@ spec:
           configMap:
             name: {{ include "sauce-connect.fullname" . }}
       {{- range .Values.query.extraConfigmapMounts }}
-        - name: {{ .name }}
+        - name: {{ $.Values.query.extraConfigmapMounts.name }}
           configMap:
-            name: {{ .configMap }}
+            name: {{ $.Values.query.extraConfigmapMounts.configMap }}
       {{- end }}
       {{- range .Values.query.extraSecretMounts }}
-        - name: {{ .name }}
+        - name: {{ $.Values.query.extraSecretMounts.name }}
           secret:
-            secretName: {{ .secretName }}
+            secretName: {{ $.Values.query.extraSecretMounts.secretName }}
       {{- end }}
       terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
       {{- with .Values.nodeSelector }}
